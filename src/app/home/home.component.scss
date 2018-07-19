@@ -1,0 +1,26 @@
+
+.current-progress{
+  display: block;
+  width: 100%;
+  text-align: right;
+  font-size: 12px;
+}
+
+.console{
+  background-color: #000;
+  color: lime;
+  height: 300px;
+
+  .console-row{
+    margin: 0;
+  }
+}
+.file-status-wrapper table tbody tr{
+  height: 60px;
+}
+#country-select{
+  display: inline-block;
+}
+#nav-envs{
+  cursor: pointer;
+}

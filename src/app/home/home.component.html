@@ -1,0 +1,63 @@
+<h1>Dashboard</h1>
+<div class="file-status-wrapper">
+  <nav>
+    <div class="nav nav-tabs" id="nav-envs" role="tablist">
+      <a *ngFor="let env of env_list;  let i = index" [ngClass]="{'active': i==0}" class="nav-item nav-link" id="{{env}}-tab" data-toggle="tab" (click)="changeEnv(env)" role="tab" aria-controls="nav-home" aria-selected="true">{{env | uppercase}}</a>
+    </div>
+  </nav>
+  <form class="mt-4">
+    <div class="row">
+      <div class="col-sm-6">
+        <div id="country-select-wrapper" class="form-group text-right">
+          <label for="country-select" class="col-sm-4 col-form-label">Country: </label>
+          <select id="country-select" name="people_list"  class="col-sm-4 form-control" [(ngModel)]="selectedCountry">
+            <option *ngFor="let c of country_list" [ngValue]="c.id">{{c.value}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-sm-6 mt-4">
+      <h3>{{selectedEnv | uppercase}}</h3>
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">File</th>
+          <th scope="col">Loading Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of objectKeys(live_data[selectedCountry][selectedEnv])">
+          <th scope="row">{{data}}</th>
+          <td>
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.aria-valuenow]="live_data[selectedCountry][selectedEnv][data].percentage" aria-valuemin="0" aria-valuemax="100" [style.width]="live_data[selectedCountry][selectedEnv][data].percentage ? live_data[selectedCountry][selectedEnv][data].percentage +'%' : ''">{{live_data[selectedCountry][selectedEnv][data].percentage ? live_data[selectedCountry][selectedEnv][data].percentage +'%' : ''}}</div>
+            </div>
+            <span *ngIf="live_data[selectedCountry][selectedEnv][data].current" class="current-progress">{{live_data[selectedCountry][selectedEnv][data].current | number}} of {{live_data[selectedCountry][selectedEnv][data].total | number}}</span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-6 mt-4">
+      <p>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#consoleProd" aria-expanded="true" aria-controls="collapseExample">
+          Show/ Hide console
+        </button>
+      </p>
+      <div class="collapse show" id="consoleProd">
+        <div class="card card-body console pre-scrollable">
+          <p *ngFor="let cmd of listCmd[selectedCountry][selectedEnv]" class="console-row">
+            <span>ddr@{{cmd.env}}-{{cmd.country}}: </span>
+            <span>{{cmd.message}}</span>
+            <span *ngIf="cmd.detail"> ({{cmd.detail}})</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
